@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
         intent.putExtra("PREGUNTAS" , ArrayList(generarPreguntasJuego()))
         binding.btnInicioJuego.setOnClickListener {
             startActivity(intent) // Iniciar la nueva actividad
+            finish()
         }
     }
 

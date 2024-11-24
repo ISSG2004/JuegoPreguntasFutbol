@@ -29,13 +29,32 @@ class PreguntaActivity : AppCompatActivity() {
         binding.pbTiempoRestante.max=45
         binding.pbTiempoRestante.max
         cuentaAtras()
+        enviarDatos()
 
+    }
+    //Crear un método para llevar la logica de que siempre no salga la primera pregunta como verdadera
+    private fun ordenPreguntas() {
+
+    }
+
+    //Añadir un contador para controlar el numero de pregunta
+    private fun enviarDatos() {
+        val listaPreguntas = intent.getSerializableExtra("PREGUNTAS") as? ArrayList<Pregunta>
+        val argumentario:String = listaPreguntas!![0].argumentario
+        val intent=Intent(this, ArgumentarioActivity::class.java)
+        intent.putExtra("ARGUMENTARIO",argumentario)
+        intent.putExtra("LISTAPREGUNTAS",ArrayList(listaPreguntas))
+        binding.btnCorregir.setOnClickListener {
+            startActivity(intent)
+            finish()
+        }
     }
 
     private fun recogerDatos(){
         val listaPreguntas = intent.getSerializableExtra("PREGUNTAS") as? ArrayList<Pregunta>
         if (listaPreguntas != null && listaPreguntas.isNotEmpty()) {
             binding.tvPregunta.text = listaPreguntas[0].enunciadoPregunta
+            ordenPreguntas()
             binding.btnRespuesta1.text = listaPreguntas[0].respuestaVerdadera
             binding.btnRespuesta2.text = listaPreguntas[0].respuestaFalsa
         } else {
@@ -44,6 +63,8 @@ class PreguntaActivity : AppCompatActivity() {
             binding.btnRespuesta2.text = ""
         }
     }
+
+
 
     fun cuentaAtras() {
         val totalTime = 45L // Total de 45 segundos
